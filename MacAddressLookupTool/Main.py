@@ -9,7 +9,7 @@ macindex = None
 vendorlist = []
 
 #opens a CSV THAT MUST CONTAIN A COLUMN TITLE OF "MAC" in order to work correctly
-with open(os.path.join(sys.path[0], 'macaddresses.csv'), newline='') as f:
+with open(os.path.join(sys.path[0], 'Netgear 192.168.1.3 - ARP table.csv'), newline='') as f:
     reader = csv.reader(f)
     data = list(reader)
 
@@ -21,13 +21,17 @@ mac.update_vendors()  # <- This can take a few seconds for the download
 
 def find_mac(mac_address):
     # print(mac.lookup(mac_address))
-    vendorname = mac.lookup(mac_address)
-    return vendorname
+    try:
+        vendorname = mac.lookup(mac_address)
+        return vendorname
+    except KeyError:
+        return "vendor_NOTFOUND"
 
 
 #checks for the column title of "MAC" and sets the index for the for loop
 if macindex is None:
-        macindex = data[0].index('MAC')
+    macindex = data[0].index('MAC')
+
 
 #iterates over the list to output the mac vendor
 for macaddr in data:
